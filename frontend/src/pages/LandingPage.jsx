@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import Header from "../components/landing/Header";
 import HeroSection from "../components/landing/HeroSection";
-import SegmentationSection from "../components/landing/SegmentationSection";
 import ProblemsSection from "../components/landing/ProblemsSection";
 import SolutionSection from "../components/landing/SolutionSection";
 import HowItWorksSection from "../components/landing/HowItWorksSection";
@@ -19,11 +18,6 @@ const LandingPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
   const formRef = useRef(null);
-  const segmentationRef = useRef(null);
-
-  const scrollToSegmentation = () => {
-    segmentationRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -31,9 +25,6 @@ const LandingPage = () => {
 
   const handleSectorSelect = (sector) => {
     setSelectedSector(sector);
-    setTimeout(() => {
-      scrollToForm();
-    }, 300);
   };
 
   const handleFormSubmit = (name) => {
@@ -65,13 +56,7 @@ const LandingPage = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <HeroSection onCtaClick={scrollToSegmentation} />
-              <div ref={segmentationRef}>
-                <SegmentationSection 
-                  selectedSector={selectedSector} 
-                  onSectorSelect={handleSectorSelect} 
-                />
-              </div>
+              <HeroSection onCtaClick={scrollToForm} />
               <ProblemsSection />
               <SolutionSection />
               <HowItWorksSection />
@@ -81,6 +66,7 @@ const LandingPage = () => {
               <div ref={formRef}>
                 <FormSection 
                   selectedSector={selectedSector}
+                  onSectorSelect={handleSectorSelect}
                   onSubmitSuccess={handleFormSubmit}
                 />
               </div>
