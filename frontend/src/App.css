@@ -1,55 +1,77 @@
-/* Custom animations and utilities for Futura Nodes Landing Page */
+/* Mailchimp-inspired styles for Futura Nodes */
 
-.font-outfit {
-  font-family: 'Outfit', sans-serif;
+.font-serif {
+  font-family: 'Fraunces', Georgia, serif;
 }
 
-.font-dm-sans {
-  font-family: 'DM Sans', sans-serif;
+.font-sans {
+  font-family: 'Source Sans 3', sans-serif;
 }
 
-/* Gradient text effect */
-.gradient-text {
-  background: linear-gradient(135deg, #1F2937 0%, #4B5563 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Card styles with subtle shadows */
+.card-mailchimp {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 200ms ease;
 }
 
-/* Card hover effect */
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.card-mailchimp:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+/* Button styles */
+.btn-primary {
+  background-color: var(--color-yellow);
+  color: var(--color-black);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: all 200ms ease;
 }
 
-/* Button pulse animation */
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.95);
-    opacity: 1;
+.btn-primary:hover {
+  background-color: var(--color-yellow-dark);
+}
+
+.btn-secondary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: all 200ms ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-gray-dark);
+}
+
+/* Section spacing */
+.section-spacing {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}
+
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding-top: var(--section-spacing-lg);
+    padding-bottom: var(--section-spacing-lg);
   }
-  75%, 100% {
-    transform: scale(1.15);
-    opacity: 0;
+}
+
+/* Container */
+.container-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@media (min-width: 768px) {
+  .container-main {
+    padding-left: 48px;
+    padding-right: 48px;
   }
-}
-
-.btn-pulse {
-  position: relative;
-}
-
-.btn-pulse::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  border-radius: inherit;
-  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  z-index: -1;
 }
 
 /* Loading spinner */
@@ -63,90 +85,53 @@
   animation: spin 1s linear infinite;
 }
 
-/* Fade in animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-/* Stagger delay utilities */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-
-/* Checkmark animation */
-@keyframes checkmark {
-  0% {
-    stroke-dashoffset: 50;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-.checkmark-animated {
-  stroke-dasharray: 50;
-  stroke-dashoffset: 50;
-  animation: checkmark 0.5s ease forwards;
-}
-
-/* Glass morphism effect */
-.glass {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Section transitions */
-.section-transition {
+/* Scroll animations */
+.scroll-animate {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(40px);
+}
+
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.section-transition.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Stagger delays for children */
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
 
-/* Input focus styles */
-.input-focus {
-  transition: all 0.2s ease;
-}
-
-.input-focus:focus {
-  border-color: #10B981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
-
-/* WhatsApp button */
+/* WhatsApp button - green style */
 .whatsapp-btn {
-  background: #25D366;
-  transition: all 0.3s ease;
+  background: var(--color-green);
+  color: var(--color-white);
+  transition: all 200ms ease;
 }
 
 .whatsapp-btn:hover {
-  background: #128C7E;
-  transform: scale(1.02);
+  background: var(--color-green-dark);
 }
 
-/* Visual metaphor animation */
-@keyframes peopleWalk {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(10px); }
+/* Input focus styles */
+.input-mailchimp {
+  border-radius: var(--radius-sm);
+  border: 1px solid #D9D9D9;
+  transition: all 200ms ease;
 }
 
-.animate-walk {
-  animation: peopleWalk 2s ease-in-out infinite;
+.input-mailchimp:focus {
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(0, 124, 137, 0.15);
+}
+
+/* Yellow hero background */
+.bg-hero-yellow {
+  background-color: var(--color-yellow);
+}
+
+/* Subtle border */
+.border-subtle {
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }

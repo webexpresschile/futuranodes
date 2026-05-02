@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Globe, TrendingDown, Users } from "lucide-react";
+import { Globe, TrendingDown, Users, X } from "lucide-react";
 
 const problems = [
   {
@@ -33,8 +33,12 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 40 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
+  },
 };
 
 const ProblemsSection = () => {
@@ -43,21 +47,21 @@ const ProblemsSection = () => {
       className="py-20 md:py-32 px-6 md:px-12 bg-white"
       data-testid="problems-section"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-12 md:mb-16"
         >
           <h2 
-            className="font-outfit font-bold text-3xl md:text-4xl lg:text-5xl tracking-tighter text-[#1F2937] mb-4"
+            className="font-serif font-semibold text-3xl md:text-4xl lg:text-5xl text-[#241C15] mb-4"
             data-testid="problems-headline"
           >
-            Probablemente uno de estos es tu problema actual:
+            Probablemente uno de estos es tu problema actual
           </h2>
-          <p className="font-dm-sans text-lg text-[#4B5563] max-w-2xl mx-auto">
+          <p className="font-sans text-lg text-[#6B6B6B] max-w-xl mx-auto">
             No te preocupes, todos tienen solución
           </p>
         </motion.div>
@@ -76,24 +80,24 @@ const ProblemsSection = () => {
               <motion.div
                 key={problem.id}
                 variants={cardVariants}
-                className="relative p-8 border border-[#1F2937]/10 bg-white group hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+                className="relative p-6 md:p-8 bg-white rounded-lg shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200"
                 data-testid={`problem-card-${problem.id}`}
               >
                 {/* X indicator */}
-                <div className="absolute top-6 right-6 w-8 h-8 bg-red-50 rounded-full flex items-center justify-center">
-                  <span className="text-red-500 font-bold text-lg">✕</span>
+                <div className="absolute top-5 right-5 w-7 h-7 bg-red-50 rounded-full flex items-center justify-center">
+                  <X className="w-4 h-4 text-red-500" />
                 </div>
 
                 {/* Icon */}
-                <div className="w-14 h-14 bg-[#F3F4F6] rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#1F2937]/5 transition-colors">
-                  <Icon className="w-7 h-7 text-[#1F2937]" />
+                <div className="w-12 h-12 bg-[#F6F6F4] rounded-lg flex items-center justify-center mb-5">
+                  <Icon className="w-6 h-6 text-[#241C15]" />
                 </div>
 
                 {/* Content */}
-                <h3 className="font-outfit font-semibold text-xl text-[#1F2937] mb-3">
+                <h3 className="font-serif font-semibold text-xl text-[#241C15] mb-3">
                   {problem.title}
                 </h3>
-                <p className="font-dm-sans text-[#4B5563] leading-relaxed">
+                <p className="font-sans text-[#6B6B6B] leading-relaxed">
                   {problem.description}
                 </p>
               </motion.div>
