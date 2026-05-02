@@ -1,0 +1,104 @@
+{
+  "theme": "light",
+  "archetype": "4 (Swiss & High-Contrast)",
+  "brand": {
+    "name": "FUTURA NODES",
+    "logo_type": "text_only",
+    "tone": "Provocative, authoritative, modern, clean."
+  },
+  "colors": {
+    "background": {
+      "primary": "#FFFFFF",
+      "secondary": "#F9FAFB"
+    },
+    "text": {
+      "primary": "#1F2937",
+      "secondary": "#4B5563",
+      "accent": "#10B981"
+    },
+    "accent": {
+      "primary": "#10B981",
+      "hover": "#059669"
+    },
+    "borders": {
+      "default": "rgba(31, 41, 55, 0.1)",
+      "focus": "#10B981"
+    }
+  },
+  "typography": {
+    "headings": {
+      "family": "Outfit, sans-serif",
+      "weight": "font-bold",
+      "tracking": "tracking-tighter",
+      "scale": {
+        "h1": "text-5xl md:text-6xl lg:text-7xl",
+        "h2": "text-3xl md:text-4xl lg:text-5xl",
+        "h3": "text-xl md:text-2xl"
+      }
+    },
+    "body": {
+      "family": "DM Sans, sans-serif",
+      "weight": "font-normal",
+      "scale": {
+        "base": "text-base md:text-lg",
+        "small": "text-sm"
+      }
+    }
+  },
+  "layout_and_spacing": {
+    "container": "max-w-7xl mx-auto px-6 md:px-12",
+    "section_padding": "py-20 md:py-32",
+    "border_radius": "rounded-none md:rounded-sm",
+    "card_style": "border border-[#1F2937]/10 bg-white p-8 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+  },
+  "components": {
+    "navigation": {
+      "type": "Sticky glassmorphism header",
+      "classes": "fixed top-0 w-full z-50 backdrop-blur-xl bg-white/80 border-b border-[#1F2937]/5",
+      "logo_classes": "font-bold text-xl tracking-tight text-[#1F2937]"
+    },
+    "hero": {
+      "layout": "Grid-based or text-centered heavy typography layout. Use max-w-4xl for the headline to maintain reading length.",
+      "headline_classes": "font-bold tracking-tighter text-[#1F2937] leading-[1.1]",
+      "cta_button": "bg-[#10B981] text-white px-8 py-4 text-lg font-medium hover:bg-[#059669] transition-colors"
+    },
+    "segmentation_bento": {
+      "layout": "Grid cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
+      "card_active_state": "border-[#10B981] ring-1 ring-[#10B981] bg-[#10B981]/5"
+    },
+    "dynamic_form": {
+      "library": "Shadcn UI (Form, Input, Select, Button)",
+      "customization": "Use sharp corners or subtle rounding (rounded-sm). Inputs should have border-[#1F2937]/20, focus:border-[#10B981] focus:ring-[#10B981].",
+      "webhook": "Mock the webhook post with a setTimeout promise."
+    }
+  },
+  "animations": {
+    "scroll": "Use Lenis for momentum smooth scrolling.",
+    "reveals": "Use Framer Motion for scroll-triggered fade-in-up animations. Stagger children for grids."
+  },
+  "media": {
+    "image_urls": [
+      {
+        "url": "https://images.unsplash.com/photo-1765371512336-99c2b1c6975f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1OTV8MHwxfHNlYXJjaHwzfHxtaW5pbWFsaXN0JTIwbW9kZXJuJTIwb2ZmaWNlJTIwYXJjaGl0ZWN0dXJlJTIwd2hpdGV8ZW58MHx8fHwxNzc3Njk3NDA5fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Minimalist modern office. Use as subtle background texture in the problems section or alongside the form.",
+        "category": "background_or_feature"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1758518732175-5d608ba3abdf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwzfHxmcnVzdHJhdGVkJTIwcHJvZmVzc2lvbmFsJTIwb2ZmaWNlJTIwbWVldGluZ3xlbnwwfHx8fDE3Nzc2OTc0MDh8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Business people in meeting. Can be used contextually near the 'Problemas Comunes' section.",
+        "category": "feature"
+      }
+    ]
+  },
+  "testing": {
+    "attributes": "All interactive elements must have data-testid attributes (e.g., data-testid='cta-hero-button', data-testid='segment-card-ecommerce')."
+  },
+  "instructions_to_main_agent": [
+    "Install required dependencies: framer-motion, @phosphor-icons/react (or lucide-react), react-hook-form, zod, @hookform/resolvers/zod.",
+    "Implement Lenis smooth scrolling globally.",
+    "Create the Hero section with massive typography. Emphasize 'Pues te mintieron' to create a disruptive impact.",
+    "The Segmentation section must update a state that feeds into the Dynamic Form section.",
+    "The Dynamic Form should conditionally render fields based on the selected segment (e.g., if 'E-commerce', ask for platform like Shopify/WooCommerce; if 'Servicios Locales', ask for City/Region).",
+    "On form submit, mock a webhook call, then show a success state with a personalized WhatsApp button ('Hablar por WhatsApp')."
+  ]
+}
