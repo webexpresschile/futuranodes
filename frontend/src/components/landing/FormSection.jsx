@@ -16,11 +16,10 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 
-// Validation schema
 const baseSchema = z.object({
-  nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  email: z.string().email("Ingresa un email válido"),
-  telefono: z.string().min(8, "Ingresa un número de teléfono válido"),
+  nombre: z.string().min(2, "Por favor ingresa un nombre válido"),
+  email: z.string().email("Email inválido"),
+  telefono: z.string().min(8, "Teléfono inválido"),
 });
 
 const WEBHOOK_URL = "https://tu-n8n-instance.com/webhook/futura-nodes-lead";
@@ -43,29 +42,24 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
   };
 
   const onSubmit = async (data) => {
-    if (!selectedSector) {
-      return;
-    }
+    if (!selectedSector) return;
 
     setIsLoading(true);
 
     const payload = {
-      ...data,
+      nombre: data.nombre,
+      email: data.email,
+      telefono: data.telefono,
       sector: selectedSector,
       ...dynamicFields,
       timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
     };
 
     try {
-      // Mock webhook call with timeout (placeholder URL)
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          console.log("Webhook payload:", payload);
-          resolve();
-        }, 1500);
-      });
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log("Webhook payload:", payload);
 
-      // Also try real webhook if available
       try {
         await fetch(WEBHOOK_URL, {
           method: "POST",
@@ -87,73 +81,50 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
     }
   };
 
-  // Dynamic fields based on sector
+  const fieldVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: { opacity: 1, height: "auto", transition: { duration: 0.3 } },
+    exit: { opacity: 0, height: 0, transition: { duration: 0.2 } }
+  };
+
   const renderDynamicFields = () => {
     if (!selectedSector) return null;
-
-    const fieldVariants = {
-      hidden: { opacity: 0, height: 0 },
-      visible: { opacity: 1, height: "auto", transition: { duration: 0.3 } },
-      exit: { opacity: 0, height: 0, transition: { duration: 0.2 } }
-    };
 
     switch (selectedSector) {
       case "Servicios":
         return (
-          <motion.div
-            key="servicios"
-            variants={fieldVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="space-y-5"
-          >
+          <motion.div key="servicios" variants={fieldVariants} initial="hidden" animate="visible" exit="exit" className="space-y-5">
             <div>
-              <Label htmlFor="tipoServicio" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Tipo de servicio
-              </Label>
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Tipo de servicio</Label>
               <Select onValueChange={(value) => handleDynamicFieldChange("tipoServicio", value)}>
-                <SelectTrigger className="w-full rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]" data-testid="select-tipo-servicio">
-                  <SelectValue placeholder="Selecciona una opción" />
+                <SelectTrigger className="w-full rounded border-gray-300" data-testid="select-tipo-servicio">
+                  <SelectValue placeholder="Selecciona tu tipo de servicio" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="consultoria">Consultoría</SelectItem>
                   <SelectItem value="coaching">Coaching</SelectItem>
-                  <SelectItem value="asesoria">Asesoría</SelectItem>
+                  <SelectItem value="asesoria">Asesoría legal/fiscal</SelectItem>
                   <SelectItem value="diseno">Diseño</SelectItem>
-                  <SelectItem value="desarrollo">Desarrollo</SelectItem>
+                  <SelectItem value="desarrollo">Desarrollo web</SelectItem>
                   <SelectItem value="capacitacion">Capacitación</SelectItem>
                   <SelectItem value="otro">Otro</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
             <div>
-              <Label htmlFor="clientesNuevos" className="text-[#241C15] font-medium mb-2 block font-sans">
-                ¿Cuántos clientes nuevos quieres al mes?
-              </Label>
-              <Input
-                type="number"
-                id="clientesNuevos"
-                placeholder="Ej: 10"
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]"
-                onChange={(e) => handleDynamicFieldChange("clientesNuevos", e.target.value)}
-                data-testid="input-clientes-nuevos"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Clientes nuevos que necesitas/mes</Label>
+              <Input type="number" min="1" placeholder="Ej: 5" className="rounded border-gray-300" onChange={(e) => handleDynamicFieldChange("clientesNuevos", e.target.value)} data-testid="input-clientes-nuevos" />
             </div>
-
             <div>
-              <Label htmlFor="presupuesto" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Presupuesto mensual
-              </Label>
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Presupuesto mensual</Label>
               <Select onValueChange={(value) => handleDynamicFieldChange("presupuesto", value)}>
-                <SelectTrigger className="w-full rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]" data-testid="select-presupuesto-servicios">
-                  <SelectValue placeholder="Selecciona tu presupuesto" />
+                <SelectTrigger className="w-full rounded border-gray-300" data-testid="select-presupuesto">
+                  <SelectValue placeholder="Selecciona tu presupuesto aproximado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="300-500">$300 - $500</SelectItem>
-                  <SelectItem value="500-1000">$500 - $1,000</SelectItem>
-                  <SelectItem value="1000-2000">$1,000 - $2,000</SelectItem>
+                  <SelectItem value="300-500">$300-500</SelectItem>
+                  <SelectItem value="500-1000">$500-1,000</SelectItem>
+                  <SelectItem value="1000-2000">$1,000-2,000</SelectItem>
                   <SelectItem value="no-se">Aún no sé</SelectItem>
                 </SelectContent>
               </Select>
@@ -163,67 +134,28 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
 
       case "E-commerce":
         return (
-          <motion.div
-            key="ecommerce"
-            variants={fieldVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="space-y-5"
-          >
+          <motion.div key="ecommerce" variants={fieldVariants} initial="hidden" animate="visible" exit="exit" className="space-y-5">
             <div>
-              <Label htmlFor="tipoProducto" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Tipo de producto
-              </Label>
-              <Input
-                type="text"
-                id="tipoProducto"
-                placeholder="Ej: Ropa, electrónica, artesanías..."
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]"
-                onChange={(e) => handleDynamicFieldChange("tipoProducto", e.target.value)}
-                data-testid="input-tipo-producto"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Tipo de producto</Label>
+              <Input type="text" placeholder="Ej: Ropa, electrónica, accesorios, etc" className="rounded border-gray-300" onChange={(e) => handleDynamicFieldChange("tipoProducto", e.target.value)} data-testid="input-tipo-producto" />
             </div>
-
             <div>
-              <Label htmlFor="ventasMes" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Ventas por mes
-              </Label>
-              <Input
-                type="number"
-                id="ventasMes"
-                placeholder="Número de ventas"
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]"
-                onChange={(e) => handleDynamicFieldChange("ventasMes", e.target.value)}
-                data-testid="input-ventas-mes"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Ventas necesarias/mes</Label>
+              <Input type="number" min="1" placeholder="Ej: 20" className="rounded border-gray-300" onChange={(e) => handleDynamicFieldChange("ventasNecesarias", e.target.value)} data-testid="input-ventas" />
             </div>
-
             <div>
-              <Label htmlFor="ticketPromedio" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Ticket promedio ($)
-              </Label>
-              <Input
-                type="number"
-                id="ticketPromedio"
-                placeholder="Ej: 50"
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]"
-                onChange={(e) => handleDynamicFieldChange("ticketPromedio", e.target.value)}
-                data-testid="input-ticket-promedio"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Ticket promedio ($)</Label>
+              <Input type="number" min="1" placeholder="Ej: 50" className="rounded border-gray-300" onChange={(e) => handleDynamicFieldChange("ticketPromedio", e.target.value)} data-testid="input-ticket" />
             </div>
-
             <div>
-              <Label htmlFor="presupuesto" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Presupuesto mensual
-              </Label>
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Presupuesto mensual</Label>
               <Select onValueChange={(value) => handleDynamicFieldChange("presupuesto", value)}>
-                <SelectTrigger className="w-full rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]" data-testid="select-presupuesto-ecommerce">
+                <SelectTrigger className="w-full rounded border-gray-300" data-testid="select-presupuesto">
                   <SelectValue placeholder="Selecciona tu presupuesto" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="500-1000">$500 - $1,000</SelectItem>
-                  <SelectItem value="1000-2000">$1,000 - $2,000</SelectItem>
+                  <SelectItem value="500-1000">$500-1,000</SelectItem>
+                  <SelectItem value="1000-2000">$1,000-2,000</SelectItem>
                   <SelectItem value="2000+">$2,000+</SelectItem>
                   <SelectItem value="no-se">Aún no sé</SelectItem>
                 </SelectContent>
@@ -234,72 +166,40 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
 
       case "Local":
         return (
-          <motion.div
-            key="local"
-            variants={fieldVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="space-y-5"
-          >
+          <motion.div key="local" variants={fieldVariants} initial="hidden" animate="visible" exit="exit" className="space-y-5">
             <div>
-              <Label htmlFor="tipoNegocio" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Tipo de negocio
-              </Label>
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Tipo de negocio</Label>
               <Select onValueChange={(value) => handleDynamicFieldChange("tipoNegocio", value)}>
-                <SelectTrigger className="w-full rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]" data-testid="select-tipo-negocio">
-                  <SelectValue placeholder="Selecciona una opción" />
+                <SelectTrigger className="w-full rounded border-gray-300" data-testid="select-tipo-negocio">
+                  <SelectValue placeholder="Selecciona tu tipo de negocio" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="salon">Salón de belleza</SelectItem>
-                  <SelectItem value="gym">Gimnasio</SelectItem>
-                  <SelectItem value="restaurante">Restaurante</SelectItem>
+                  <SelectItem value="gym">Gym/Academia</SelectItem>
+                  <SelectItem value="restaurante">Restaurante/Café</SelectItem>
                   <SelectItem value="consultorio">Consultorio</SelectItem>
                   <SelectItem value="tienda">Tienda física</SelectItem>
                   <SelectItem value="otro">Otro</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
             <div>
-              <Label htmlFor="ubicacion" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Ubicación (ciudad/zona)
-              </Label>
-              <Input
-                type="text"
-                id="ubicacion"
-                placeholder="Ej: Santiago Centro, Providencia..."
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]"
-                onChange={(e) => handleDynamicFieldChange("ubicacion", e.target.value)}
-                data-testid="input-ubicacion"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Ubicación (Ciudad/Comuna)</Label>
+              <Input type="text" placeholder="Ej: Santiago Centro" className="rounded border-gray-300" onChange={(e) => handleDynamicFieldChange("ubicacion", e.target.value)} data-testid="input-ubicacion" />
             </div>
-
             <div>
-              <Label htmlFor="clientesMes" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Clientes por mes
-              </Label>
-              <Input
-                type="number"
-                id="clientesMes"
-                placeholder="Número de clientes"
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]"
-                onChange={(e) => handleDynamicFieldChange("clientesMes", e.target.value)}
-                data-testid="input-clientes-mes"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Clientes nuevos que necesitas/mes</Label>
+              <Input type="number" min="1" placeholder="Ej: 10" className="rounded border-gray-300" onChange={(e) => handleDynamicFieldChange("clientesNuevos", e.target.value)} data-testid="input-clientes" />
             </div>
-
             <div>
-              <Label htmlFor="presupuesto" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Presupuesto mensual
-              </Label>
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Presupuesto mensual</Label>
               <Select onValueChange={(value) => handleDynamicFieldChange("presupuesto", value)}>
-                <SelectTrigger className="w-full rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]" data-testid="select-presupuesto-local">
+                <SelectTrigger className="w-full rounded border-gray-300" data-testid="select-presupuesto">
                   <SelectValue placeholder="Selecciona tu presupuesto" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="200-500">$200 - $500</SelectItem>
-                  <SelectItem value="500-1000">$500 - $1,000</SelectItem>
+                  <SelectItem value="200-500">$200-500</SelectItem>
+                  <SelectItem value="500-1000">$500-1,000</SelectItem>
                   <SelectItem value="1000+">$1,000+</SelectItem>
                   <SelectItem value="no-se">Aún no sé</SelectItem>
                 </SelectContent>
@@ -310,54 +210,28 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
 
       case "Otro":
         return (
-          <motion.div
-            key="otro"
-            variants={fieldVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="space-y-5"
-          >
+          <motion.div key="otro" variants={fieldVariants} initial="hidden" animate="visible" exit="exit" className="space-y-5">
             <div>
-              <Label htmlFor="descripcion" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Describe tu negocio
-              </Label>
-              <Textarea
-                id="descripcion"
-                placeholder="Cuéntanos sobre tu negocio, qué haces, a quién ayudas..."
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89] min-h-[100px]"
-                onChange={(e) => handleDynamicFieldChange("descripcion", e.target.value)}
-                data-testid="textarea-descripcion"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Describe tu negocio</Label>
+              <Textarea placeholder="Cuéntame brevemente qué vendes o qué servicio ofreces" maxLength={500} className="rounded border-gray-300 min-h-[100px]" onChange={(e) => handleDynamicFieldChange("descripcion", e.target.value)} data-testid="textarea-descripcion" />
+              <p className="text-xs text-[#6B6B6B] mt-1">Máximo 500 caracteres</p>
             </div>
-
             <div>
-              <Label htmlFor="clientesVentas" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Clientes/ventas por mes
-              </Label>
-              <Input
-                type="number"
-                id="clientesVentas"
-                placeholder="Número aproximado"
-                className="rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]"
-                onChange={(e) => handleDynamicFieldChange("clientesVentas", e.target.value)}
-                data-testid="input-clientes-ventas"
-              />
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Clientes/ventas necesarios/mes</Label>
+              <Input type="number" min="1" placeholder="Ej: 8" className="rounded border-gray-300" onChange={(e) => handleDynamicFieldChange("clientesVentas", e.target.value)} data-testid="input-clientes-ventas" />
             </div>
-
             <div>
-              <Label htmlFor="presupuesto" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Presupuesto mensual
-              </Label>
+              <Label className="text-[#241C15] font-medium mb-2 block font-sans">Presupuesto mensual</Label>
               <Select onValueChange={(value) => handleDynamicFieldChange("presupuesto", value)}>
-                <SelectTrigger className="w-full rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89]" data-testid="select-presupuesto-otro">
+                <SelectTrigger className="w-full rounded border-gray-300" data-testid="select-presupuesto">
                   <SelectValue placeholder="Selecciona tu presupuesto" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="no-definido">No definido</SelectItem>
-                  <SelectItem value="200-500">$200 - $500</SelectItem>
-                  <SelectItem value="500-1000">$500 - $1,000</SelectItem>
+                  <SelectItem value="200-500">$200-500</SelectItem>
+                  <SelectItem value="500-1000">$500-1,000</SelectItem>
                   <SelectItem value="1000+">$1,000+</SelectItem>
+                  <SelectItem value="5000+">$5,000+</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -370,11 +244,7 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
   };
 
   return (
-    <section 
-      id="formulario"
-      className="py-20 md:py-32 px-6 md:px-12 bg-[#F6F6F4]"
-      data-testid="form-section"
-    >
+    <section id="formulario" className="py-20 md:py-32 px-6 md:px-12 bg-[#F6F6F4]" data-testid="form-section">
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -383,14 +253,11 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <h2 
-            className="font-serif font-semibold text-3xl md:text-4xl text-[#241C15] mb-4"
-            data-testid="form-headline"
-          >
+          <h2 className="font-serif font-semibold text-3xl md:text-4xl text-[#241C15] mb-4">
             Cuéntame más para crear tu propuesta personalizada
           </h2>
           <p className="font-sans text-[#6B6B6B]">
-            Completa el formulario y recibirás tu diagnóstico en segundos
+            Solo llena esto y te contactamos en las próximas 24 horas
           </p>
         </motion.div>
 
@@ -407,22 +274,18 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
           <div className="space-y-5 mb-6">
             <div>
               <Label htmlFor="nombre" className="text-[#241C15] font-medium mb-2 block font-sans">
-                Nombre
+                Nombre completo
               </Label>
               <Input
                 type="text"
                 id="nombre"
-                placeholder="Tu nombre"
-                className={`rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89] ${
-                  errors.nombre ? "border-red-500" : ""
-                }`}
+                placeholder="Tu nombre completo"
+                className={`rounded border-gray-300 ${errors.nombre ? "border-red-500" : ""}`}
                 {...register("nombre")}
                 data-testid="input-nombre"
               />
               {errors.nombre && (
-                <p className="text-red-500 text-sm mt-1 font-sans" data-testid="error-nombre">
-                  {errors.nombre.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1 font-sans">{errors.nombre.message}</p>
               )}
             </div>
 
@@ -434,16 +297,12 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
                 type="email"
                 id="email"
                 placeholder="tu@email.com"
-                className={`rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89] ${
-                  errors.email ? "border-red-500" : ""
-                }`}
+                className={`rounded border-gray-300 ${errors.email ? "border-red-500" : ""}`}
                 {...register("email")}
                 data-testid="input-email"
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1 font-sans" data-testid="error-email">
-                  {errors.email.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1 font-sans">{errors.email.message}</p>
               )}
             </div>
 
@@ -455,16 +314,12 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
                 type="tel"
                 id="telefono"
                 placeholder="+56 9 1234 5678"
-                className={`rounded border-gray-300 focus:border-[#007C89] focus:ring-[#007C89] ${
-                  errors.telefono ? "border-red-500" : ""
-                }`}
+                className={`rounded border-gray-300 ${errors.telefono ? "border-red-500" : ""}`}
                 {...register("telefono")}
                 data-testid="input-telefono"
               />
               {errors.telefono && (
-                <p className="text-red-500 text-sm mt-1 font-sans" data-testid="error-telefono">
-                  {errors.telefono.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1 font-sans">{errors.telefono.message}</p>
               )}
             </div>
           </div>
@@ -495,13 +350,13 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
             <Button
               type="submit"
               disabled={isLoading || !selectedSector}
-              className="w-full bg-[#FFE01B] text-[#241C15] py-4 text-lg font-semibold rounded hover:bg-[#F5D000] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full bg-[#241C15] text-white py-4 text-lg font-semibold rounded hover:bg-[#3D3D3D] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               data-testid="submit-button"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Enviando...
+                  Procesando...
                 </span>
               ) : (
                 "Enviar mi información"
@@ -512,7 +367,7 @@ const FormSection = ({ selectedSector, onSubmitSuccess }) => {
           {/* Privacy note */}
           <p className="text-center text-sm text-[#6B6B6B] mt-4 flex items-center justify-center gap-2 font-sans">
             <Lock className="w-4 h-4" />
-            Tu información es privada y segura
+            Tu información es privada y segura. No compartimos datos con terceros.
           </p>
         </motion.form>
       </div>

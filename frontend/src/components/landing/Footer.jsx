@@ -3,7 +3,7 @@ const Footer = () => {
 
   return (
     <footer 
-      className="py-12 px-6 md:px-12 bg-[#241C15] text-white"
+      className="py-12 px-6 md:px-12 bg-[#F6F6F4] border-t border-[#E5E7EB]"
       data-testid="footer"
     >
       <div className="max-w-[1200px] mx-auto">
@@ -12,34 +12,31 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <a 
               href="/" 
-              className="font-serif font-semibold text-xl hover:text-[#FFE01B] transition-colors"
+              className="font-serif font-semibold text-xl text-[#241C15] hover:text-[#007C89] transition-colors"
             >
               Futura Nodes
             </a>
-            <p className="font-sans text-sm text-gray-400 mt-1">
-              Tráfico que convierte
-            </p>
           </div>
 
           {/* Links */}
           <div className="flex items-center gap-6 text-sm">
             <a 
-              href="#segmentacion" 
-              className="font-sans text-gray-400 hover:text-white transition-colors"
+              href="#" 
+              className="font-sans text-[#6B6B6B] hover:text-[#241C15] transition-colors"
             >
-              Servicios
+              Política de privacidad
             </a>
             <a 
-              href="#formulario" 
-              className="font-sans text-gray-400 hover:text-white transition-colors"
+              href="#" 
+              className="font-sans text-[#6B6B6B] hover:text-[#241C15] transition-colors"
             >
-              Contacto
+              Términos de servicio
             </a>
           </div>
 
           {/* Copyright */}
           <div className="text-center md:text-right">
-            <p className="font-sans text-sm text-gray-400">
+            <p className="font-sans text-sm text-[#6B6B6B]">
               © {currentYear} Futura Nodes. Todos los derechos reservados.
             </p>
           </div>

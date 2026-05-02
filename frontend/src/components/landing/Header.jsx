@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const Header = () => {
+const Header = ({ onCtaClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -19,8 +19,8 @@ const Header = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-white shadow-sm" 
-          : "bg-[#FFE01B]"
+          ? "bg-white/95 backdrop-blur-sm shadow-sm" 
+          : "bg-[#FFE01B]/90 backdrop-blur-sm"
       }`}
       data-testid="header"
     >
@@ -49,13 +49,13 @@ const Header = () => {
             </a>
           </nav>
 
-          <a
-            href="#formulario"
+          <button
+            onClick={onCtaClick}
             className="bg-[#241C15] text-white px-5 py-2.5 text-sm font-semibold rounded hover:bg-[#3D3D3D] transition-colors"
             data-testid="header-cta"
           >
             Empezar
-          </a>
+          </button>
         </div>
       </div>
     </motion.header>

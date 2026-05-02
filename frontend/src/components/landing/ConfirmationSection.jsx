@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
-import { CheckCircle, MessageCircle, RefreshCw, ArrowRight } from "lucide-react";
+import { CheckCircle, MessageCircle, RefreshCw, Check } from "lucide-react";
 
 const WHATSAPP_NUMBER = "56973027813";
+
+const nextSteps = [
+  "Un diagnóstico rápido de tu situación",
+  "Las 3 razones por las que NO traes clientes",
+  "Tu próximo paso (sin compromiso de nada)",
+];
 
 const ConfirmationSection = ({ name }) => {
   const whatsappMessage = encodeURIComponent(`Hola ${name}, vi Futura Nodes`);
@@ -41,16 +47,37 @@ const ConfirmationSection = ({ name }) => {
           Perfecto, {name}!
         </motion.h1>
 
-        {/* Message */}
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.4 }}
-          className="font-sans text-lg md:text-xl text-[#241C15] mb-10"
-          data-testid="confirmation-message"
+          transition={{ duration: 0.4, delay: 0.35 }}
+          className="font-sans text-lg text-[#241C15]/80 mb-6"
         >
-          En 60 segundos recibirás un mensaje en WhatsApp con tu diagnóstico personalizado
+          Tu información fue recibida.
         </motion.p>
+
+        {/* Message */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.4 }}
+          className="bg-white/50 backdrop-blur-sm p-6 rounded-lg mb-8"
+        >
+          <p className="font-sans text-[#241C15] mb-4">
+            En los próximos 60 segundos recibirás un mensaje en WhatsApp con:
+          </p>
+          <ul className="space-y-2 text-left max-w-sm mx-auto">
+            {nextSteps.map((step, index) => (
+              <li key={index} className="flex items-center gap-3">
+                <div className="w-5 h-5 bg-[#007C89] rounded flex items-center justify-center flex-shrink-0">
+                  <Check className="w-3 h-3 text-white" />
+                </div>
+                <span className="font-sans text-[#241C15]">{step}</span>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
 
         {/* WhatsApp button */}
         <motion.div
@@ -73,48 +100,16 @@ const ConfirmationSection = ({ name }) => {
           {/* Fallback */}
           <div>
             <a
-              href={whatsappLink}
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 text-[#241C15] hover:text-[#007C89] transition-colors text-sm font-sans"
+              className="inline-flex items-center justify-center gap-2 text-[#241C15]/70 hover:text-[#241C15] transition-colors text-sm font-sans"
               data-testid="whatsapp-fallback"
             >
               <RefreshCw className="w-4 h-4" />
-              ¿No recibes? Presiona aquí
+              ¿No recibes el mensaje? Presiona aquí para iniciar chat directamente
             </a>
           </div>
-        </motion.div>
-
-        {/* Additional info */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.6 }}
-          className="mt-12 p-6 bg-white rounded-lg shadow-sm text-left"
-        >
-          <h3 className="font-serif font-semibold text-[#241C15] mb-4 text-lg">
-            ¿Qué sigue?
-          </h3>
-          <ul className="font-sans text-[#6B6B6B] space-y-3">
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-[#007C89] rounded flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-white text-sm font-bold">1</span>
-              </div>
-              <span>Recibirás tu diagnóstico por WhatsApp</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-[#007C89] rounded flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-white text-sm font-bold">2</span>
-              </div>
-              <span>Analizaremos tu caso específico</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-[#007C89] rounded flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-white text-sm font-bold">3</span>
-              </div>
-              <span>Te enviaremos una propuesta personalizada</span>
-            </li>
-          </ul>
         </motion.div>
       </motion.div>
     </section>
