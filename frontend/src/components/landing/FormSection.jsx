@@ -290,36 +290,36 @@ const FormSection = ({ selectedSector, onSectorSelect, onSubmitSuccess }) => {
                   "p-6 rounded-2xl",
                   "border-2",
                   isSelected
-                    ? "bg-[#FFE01B] border-[#FFE01B] shadow-lg scale-[1.02]"
-                    : "bg-[#FFE01B] border-[#FFE01B]/30 hover:border-[#FFE01B] hover:shadow-md hover:scale-[1.01]"
+                    ? "bg-[#1A1A1A] border-[#FFE01B] shadow-lg scale-[1.02] ring-2 ring-[#FFE01B]/30"
+                    : "bg-[#1A1A1A] border-[#333333] hover:border-[#FFE01B]/50 hover:shadow-lg hover:scale-[1.01]"
                 ].join(" ")}
               >
                 <div className="flex items-start gap-4">
                   <div className={[
                     "w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl transition-all duration-300",
                     isSelected
-                      ? "bg-[#241C15] text-white"
-                      : "bg-white/70 text-[#241C15] group-hover:bg-white"
+                      ? "bg-[#FFE01B] text-[#1A1A1A]"
+                      : "bg-[#FFE01B]/20 text-[#FFE01B] group-hover:bg-[#FFE01B]/30"
                   ].join(" ")}>
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className={[
                       "font-serif font-semibold text-base transition-colors",
-                      isSelected ? "text-[#241C15]" : "text-[#241C15]"
+                      isSelected ? "text-white" : "text-white"
                     ].join(" ")}>
                       {sector.title}
                     </h3>
-                    <p className="text-sm text-[#241C15]/60 mt-1">{sector.description}</p>
+                    <p className="text-sm text-white/50 mt-1 group-hover:text-white/70 transition-colors">{sector.description}</p>
                   </div>
                   {isSelected && (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="w-6 h-6 rounded-full bg-[#241C15] flex items-center justify-center flex-shrink-0 mt-1"
+                      className="w-6 h-6 rounded-full bg-[#FFE01B] flex items-center justify-center flex-shrink-0 mt-1 shadow-sm"
                     >
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path d="M2 6L5 9L10 3" stroke="#FFE01B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M2 6L5 9L10 3" stroke="#1A1A1A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </motion.div>
                   )}
