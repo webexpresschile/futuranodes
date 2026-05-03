@@ -72,12 +72,12 @@ const SolutionSection = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="flex flex-col gap-5"
         >
-          {/* Row 1: Meta Ads (2/3) + Funnels (1/3) */}
+          {/* Row 1: Meta Ads (1/2) + Funnels (1/2) */}
           <div className="flex flex-col md:flex-row gap-5">
             {/* Card 1 — Meta Ads — larger */}
             <motion.div
               variants={cardVariants}
-              className="flex-1 md:w-2/3 bg-white p-8 md:p-10 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
+              className="flex-1 md:w-1/2 bg-white p-8 md:p-10 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
               data-testid="solution-card-1"
             >
               <div className="flex flex-col md:flex-row items-start gap-6">
@@ -109,7 +109,7 @@ const SolutionSection = () => {
             {/* Card 2 — Funnels — smaller */}
             <motion.div
               variants={cardVariants}
-              className="md:w-1/3 bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
+              className="md:w-1/2 bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
               data-testid="solution-card-2"
             >
               <div 
