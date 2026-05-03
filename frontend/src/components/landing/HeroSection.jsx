@@ -1,13 +1,28 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Store, Users } from "lucide-react";
+import Silk from "./Silk";
 
 const HeroSection = ({ onCtaClick }) => {
   return (
     <section 
-      className="relative min-h-screen flex items-center justify-center pt-20 pb-20 md:pb-32 px-6 md:px-12 bg-[#FFE01B]"
+      className="relative min-h-screen flex items-center justify-center pt-20 pb-20 md:pb-32 px-6 md:px-12 overflow-hidden"
       data-testid="hero-section"
     >
-      <div className="max-w-[1200px] mx-auto text-center">
+      {/* Silk animated background */}
+      <div className="absolute inset-0 w-full h-full">
+        <Silk
+          speed={5}
+          scale={1}
+          color="#FFE01B"
+          noiseIntensity={1.5}
+          rotation={0}
+        />
+      </div>
+
+      {/* Dark overlay for text contrast */}
+      <div className="absolute inset-0 bg-[#241C15]/10" />
+
+      <div className="max-w-[1200px] mx-auto text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

@@ -14,7 +14,7 @@ const solutions = [
     icon: GitBranch,
     title: "Funnels optimizados",
     description: "Formularios que convierten. Capturamos datos, clasificamos y calificamos leads automáticamente. Sin esfuerzo tuyo.",
-    color: "#241C15",
+    color: "#007C89",
   },
   {
     id: 3,
@@ -74,7 +74,7 @@ const SolutionSection = () => {
         >
           {/* Row 1: Meta Ads (1/2) + Funnels (1/2) */}
           <div className="flex flex-col md:flex-row gap-5">
-            {/* Card 1 — Meta Ads — larger */}
+            {/* Card 1 — Meta Ads */}
             <motion.div
               variants={cardVariants}
               className="flex-1 md:w-1/2 bg-white p-8 md:p-10 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
@@ -106,32 +106,36 @@ const SolutionSection = () => {
               </div>
             </motion.div>
 
-            {/* Card 2 — Funnels — smaller */}
+            {/* Card 2 — Funnels */}
             <motion.div
               variants={cardVariants}
-              className="md:w-1/2 bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
+              className="flex-1 md:w-1/2 bg-white p-8 md:p-10 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
               data-testid="solution-card-2"
             >
-              <div 
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-                style={{ backgroundColor: `${solutions[1].color}12` }}
-              >
-                <GitBranch className="w-6 h-6" style={{ color: solutions[1].color }} />
-              </div>
-              <div className="flex items-center gap-2 mb-3">
-                <span 
-                  className="w-6 h-6 rounded-md flex items-center justify-center font-serif font-bold text-xs"
-                  style={{ backgroundColor: solutions[1].color, color: "white" }}
+              <div className="flex flex-col md:flex-row items-start gap-6">
+                <div 
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: `${solutions[1].color}12` }}
                 >
-                  2
-                </span>
-                <h3 className="font-serif font-semibold text-lg text-[#241C15]">
-                  {solutions[1].title}
-                </h3>
+                  <GitBranch className="w-8 h-8 md:w-10 md:h-10" style={{ color: solutions[1].color }} />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span 
+                      className="w-8 h-8 rounded-lg flex items-center justify-center font-serif font-bold text-sm"
+                      style={{ backgroundColor: solutions[1].color, color: "white" }}
+                    >
+                      2
+                    </span>
+                    <h3 className="font-serif font-semibold text-xl md:text-2xl text-[#241C15]">
+                      {solutions[1].title}
+                    </h3>
+                  </div>
+                  <p className="font-sans text-[#6B6B6B] leading-relaxed text-base md:text-lg">
+                    {solutions[1].description}
+                  </p>
+                </div>
               </div>
-              <p className="font-sans text-[#6B6B6B] leading-relaxed text-sm">
-                {solutions[1].description}
-              </p>
             </motion.div>
           </div>
 
@@ -141,17 +145,17 @@ const SolutionSection = () => {
             className="bg-white p-8 md:p-10 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
             data-testid="solution-card-3"
           >
-            <div className="flex flex-col md:flex-row items-start gap-5 md:gap-8">
+            <div className="flex flex-col md:flex-row items-start gap-6">
               <div 
-                className="w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
+                className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: `${solutions[2].color}12` }}
               >
-                <MessageCircle className="w-7 h-7 md:w-8 md:h-8" style={{ color: solutions[2].color }} />
+                <MessageCircle className="w-8 h-8 md:w-10 md:h-10" style={{ color: solutions[2].color }} />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
                   <span 
-                    className="w-7 h-7 rounded-lg flex items-center justify-center font-serif font-bold text-xs"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center font-serif font-bold text-sm"
                     style={{ backgroundColor: solutions[2].color, color: "white" }}
                   >
                     3
