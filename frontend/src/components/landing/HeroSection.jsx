@@ -19,9 +19,6 @@ const HeroSection = ({ onCtaClick }) => {
         />
       </div>
 
-      {/* Dark overlay for text contrast */}
-      <div className="absolute inset-0 bg-[#241C15]/10" />
-
       <div className="max-w-[1200px] mx-auto text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
