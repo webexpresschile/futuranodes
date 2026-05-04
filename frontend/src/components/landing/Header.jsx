@@ -19,8 +19,8 @@ const Header = ({ onCtaClick }) => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-white/95 backdrop-blur-sm shadow-sm" 
-          : "bg-[#FFE01B]/90 backdrop-blur-sm"
+          ? "bg-white/40 backdrop-blur-xl shadow-sm border-b border-white/20" 
+          : "bg-white/15 backdrop-blur-xl border-b border-white/20"
       }`}
       data-testid="header"
     >
